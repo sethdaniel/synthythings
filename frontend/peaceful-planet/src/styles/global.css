@@ -1,0 +1,7 @@
+/* src/styles/global.css */
+#circuit-board {
+    width: 100%;
+    height: 100vh;  /* Full viewport height */
+    overflow: hidden;  /* Prevent overflow if animation goes beyond the viewport */
+  }
+  

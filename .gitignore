@@ -1,0 +1,19 @@
+# Node
+frontend/node_modules/
+frontend/.astro/
+
+# Python
+backend/venv/
+__pycache__/
+
+# Terraform/OpenTofu
+infrastructure/.terraform/
+*.tfstate
+*.tfstate.backup
+
+# macOS
+.DS_Store
+*/.DS_Store
+
+# Visual Studio Code
+.vscode/

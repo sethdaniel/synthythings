@@ -1,0 +1,136 @@
+---
+---
+
+<!-- Logo placed at the top of the page -->
+<div id="logo-container">
+    <img src="/font01White02.png" alt="SynthyThings Logo" id="logo" />
+  </div>
+  
+  <!-- Empty div where Three.js will render -->
+  <div id="circuit-board"></div>
+  
+  <!-- Add the Three.js logic inside a client-side script -->
+  <script type="module">
+    // Load Three.js from Unpkg CDN
+    import * as THREE from 'https://unpkg.com/three@0.176.0/build/three.module.js';
+  
+    // Create and setup the scene
+    let scene = new THREE.Scene();
+    let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    let renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0x000000, 1); // Set background color to black
+    
+    // Append renderer to the DOM
+    const circuitBoardElement = document.getElementById("circuit-board");
+    if (circuitBoardElement) {
+      circuitBoardElement.appendChild(renderer.domElement);
+    } else {
+      console.error('Failed to find the circuit-board div');
+    }
+  
+    // Create the circuit grid geometry
+    const geometry = new THREE.BufferGeometry();
+    const size = 40; // Increased grid size significantly
+    const divisions = 30;
+  
+    const vertices = [];
+    for (let i = -divisions; i <= divisions; i++) {
+      vertices.push(i * size / divisions, -size, 0);
+      vertices.push(i * size / divisions, size, 0);
+      vertices.push(-size, i * size / divisions, 0);
+      vertices.push(size, i * size / divisions, 0);
+    }
+  
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+  
+    const material = new THREE.LineBasicMaterial({ color: 0x00ff00, linewidth: 2 });
+    const lines = new THREE.LineSegments(geometry, material);
+    scene.add(lines);
+  
+    // Adjust the grid to ensure it stays within the visible window
+    lines.position.y = 0; // Reset to the center
+  
+    // Position the camera further back to view the entire grid
+    camera.position.z = 100; // Moved the camera back further to fit the larger grid
+    camera.position.y = 0; // Center the camera vertically to avoid extra margin
+  
+    // Animation loop
+    const animate = function () {
+      requestAnimationFrame(animate);
+  
+      // Rotate the lines to simulate movement
+      lines.rotation.x += 0.005;
+      lines.rotation.y += 0.005;
+  
+      renderer.render(scene, camera);
+    };
+  
+    animate();
+  
+    // Handle window resizing
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+  
+  <style>
+    /* Ensure the entire background is black */
+    body {
+      margin: 0;
+      background-color: #000000; /* Set page background to black */
+    }
+  
+    #logo-container {
+      position: absolute;
+      top: 20px; /* Adjust top position to give space for the logo */
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10; /* Make sure the logo is above the grid */
+    }
+  
+    #logo {
+      width: 600px; 
+      height: auto;
+    }
+  
+    #circuit-board {
+      position: absolute;
+      top: 60px; /* Adjusted top margin to give space for the logo */
+      left: 0;
+      width: 100%;
+      height: calc(100vh - 60px); /* Adjusted height to make more room for the grid */
+      z-index: 0; /* Ensure grid stays beneath the logo */
+    }
+  
+    /* Mobile responsiveness for the logo */
+    @media (max-width: 768px) {
+      #logo {
+        width: 150px; /* Smaller logo on mobile */
+      }
+      #logo-container {
+        top: 10px; /* Reduce space above logo on smaller screens */
+      }
+      #circuit-board {
+        top: 50px; /* Reduce space for the logo */
+        height: calc(100vh - 50px); /* Adjust grid height */
+      }
+    }
+  
+    /* Very small screens (e.g., phones) */
+    @media (max-width: 480px) {
+      #logo {
+        width: 120px; /* Even smaller logo on very small screens */
+      }
+      #logo-container {
+        top: 5px; /* Minimal top space for the logo */
+      }
+      #circuit-board {
+        top: 40px; /* Less space above grid */
+        height: calc(100vh - 40px); /* Adjust height to fill more screen */
+      }
+    }
+  </style>
+  
