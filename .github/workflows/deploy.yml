@@ -1,39 +1,36 @@
-name: Deploy to S3
+name: Deploy Astro Site
 
 on:
   push:
     branches:
-      - main
+      - main  # or your main branch name
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '23.10.0'
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.11.1'  # Use whatever version you're using locally
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        working-directory: frontend/peaceful-planet
+        run: npm install
 
-    - name: Build Astro project
-      run: npm run build
+      - name: Build Astro project
+        working-directory: frontend/peaceful-planet
+        run: npm run build
 
-    - name: Install AWS CLI
-      run: sudo apt-get install -y awscli
-
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1 
-
-    - name: Deploy to S3
-      run: |
-        aws s3 sync ./dist/ s3://synthythings-frontend --delete
+      - name: Deploy to S3
+        working-directory: frontend/peaceful-planet
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-1  # or your region
+        run: |
+          aws s3 sync ./dist s3://synthythings-frontend --delete
