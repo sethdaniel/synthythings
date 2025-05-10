@@ -1,7 +1,79 @@
-/* src/styles/global.css */
+body {
+  background-color: black;
+}
+
 #circuit-board {
     width: 100%;
     height: 100vh;  /* Full viewport height */
     overflow: hidden;  /* Prevent overflow if animation goes beyond the viewport */
   }
+
+  .navbar {
+    width: 100%;
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 1000;
+    position: relative;
+  }
   
+  .navbar-home {
+    align-items: center;
+  }
+  
+  .logo-home img {
+    height: 100px; /* or whatever height fits nicely */
+    margin-bottom: 1.5rem; /* <--- this pushes the nav down cleanly */
+  }
+
+  .logo-page img {
+    margin-bottom: 1.5rem;
+    margin-left: 20px;
+    width: 20%;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .pagetitle {
+    color: #ffffff;
+    font-size: 50px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'TR-909', sans-serif;
+  }
+
+  .nav-links {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .nav-links ul {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .nav-links a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-family: 'TR-909', sans-serif;
+  }
+  
+  .nav-links a:hover {
+    text-decoration: underline;
+  }
+
+  @font-face {
+    font-family: 'TR-909';
+    src: url('/fonts/TR-909.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
