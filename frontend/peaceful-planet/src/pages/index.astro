@@ -2,16 +2,27 @@
 import CircuitBoard from '../components/CircuitBoard.astro';
 import '../styles/global.css';  // Import the global CSS
 import Navbar from '../components/Navbar.astro';
+import LogoHome from '../components/LogoHome.astro';
 ---
 
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SynthyThings - Animated Circuit Board</title>
+    <title>SynthyThings - Home</title>
   </head>
   <body>
-    <Navbar />
+    <header class="navbar navbar-home">
+      <div class="logo-home">
+        <img src="../../font01White02.png" alt="SynthyThings Logo" />
+      </div>
+      <nav class="nav-links">
+        <ul>
+          <li><a href="/shop">Shop</a></li>
+          <li><a href="/about">About</a></li>
+        </ul>
+      </nav>
+    </header>
     <CircuitBoard />
   </body>
 </html>
